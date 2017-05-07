@@ -20,6 +20,12 @@ namespace ClassLibrary1
 
         //static const
         private const int DEFAULT_CODES = 6;
+
+        public void setCodeReadyListener()
+        {
+            throw new NotImplementedException();
+        }
+
         //static const
         private const string KEYCODE = "KEYCODE_";
         public Character chracter;
@@ -29,7 +35,7 @@ namespace ClassLibrary1
         private Paint underlinePaint;
         private Paint underlineSelectedPaint;
         private Paint textPaint;
-        private Paint hintPaint;
+        private static  Paint hintPaint;
         private ValueAnimator reductionAnimator;
         private ValueAnimator hintYAnimator;
         private ValueAnimator hintSizeAnimator;
@@ -43,7 +49,7 @@ namespace ClassLibrary1
         private float hintNormalSize;
         private float hintSmallSize;
         private float hintMarginBottom;
-        private float hintActualMarginBottom;
+        public  static float hintActualMarginBottom;
         private float viewHeight;
         private long animationDuration;
         private int height;
@@ -96,7 +102,7 @@ namespace ClassLibrary1
         {
             // These methods are the different events and
             // need to pass relevant arguments related to the event triggered
-            void onCodeReady(Character[] code);
+            void onCodeReady(Character[] code); 
         }
         private void initDefaultAttributes()
         {
@@ -172,6 +178,7 @@ namespace ClassLibrary1
             textPaint.TextSize=textSize;
 #pragma warning disable CS0618 // Type or member is obsolete
             textPaint.Color=Resources.GetColor(textColor);
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0618 // Type or member is obsolete
             textPaint.AntiAlias=true;
             textPaint.TextAlign=Paint.Align.Center;
@@ -416,7 +423,7 @@ namespace ClassLibrary1
             public void OnAnimationUpdate(ValueAnimator animation)
             {
                 //Take String Argument
-                float value = ((Float)animation.GetAnimatedValue("")).FloatValue();
+                float value = ((Float)animation.AnimatedValue).FloatValue();
                 reduction = value;
             }
 
@@ -425,20 +432,20 @@ namespace ClassLibrary1
         //End Of The First one 
         private class HintYAnimatorListener : Java.Lang.Object, ValueAnimator.IAnimatorUpdateListener
            {
-            private float hintActualMarginBottom;
 
-            public void OnAnimationUpdate(ValueAnimator animation)
+            
+            public  void OnAnimationUpdate(ValueAnimator animation)
                {
-                    hintActualMarginBottom = (float) animation.GetAnimatedValue("");
+                    hintActualMarginBottom = (float) animation.AnimatedValue;
                }
            }
         //End of The Second
-       private class HintSizeAnimatorListener : Java.Lang.Object, ValueAnimator.IAnimatorUpdateListener
+        private class HintSizeAnimatorListener : Java.Lang.Object, ValueAnimator.IAnimatorUpdateListener
         {
-            public void OnAnimationUpdate(ValueAnimator animation)
+            void ValueAnimator.IAnimatorUpdateListener.OnAnimationUpdate(ValueAnimator animation)
             {
-                float size = (float) animation.GetAnimatedValue("");
-               // hintPaint.Set(size);
+                float size = (float)animation.AnimatedValue;
+                hintPaint.Set((Paint)size);
             }
         }
         // override Animationupdae //End of the 3 one .
