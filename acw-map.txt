@@ -1,4 +1,0 @@
-AppAuthCode.MainActivity, AppAuthCode;md52aa2803e993cbc7c51f020508315d641.MainActivity
-AppAuthCode.MainActivity, AppAuthCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md52aa2803e993cbc7c51f020508315d641.MainActivity
-AppAuthCode.MainActivity;md52aa2803e993cbc7c51f020508315d641.MainActivity
-appauthcode.MainActivity;md52aa2803e993cbc7c51f020508315d641.MainActivity
