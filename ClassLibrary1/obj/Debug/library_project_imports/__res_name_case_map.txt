@@ -1,0 +1,5 @@
+Values/Strings.xml;values/strings.xml
+Values/attrs.xml;values/attrs.xml
+Values/Color.xml;values/color.xml
+Values/Dimension.xml;values/dimension.xml
+Values/Integer.xml;values/integer.xml
