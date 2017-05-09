@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Android.Views;
 using Android.Animation;
 using Android.Graphics;
@@ -17,15 +17,8 @@ namespace ClassLibrary1
 {
     public class CustomCodeInput : View
     {
-
         //static const
         private const int DEFAULT_CODES = 6;
-
-        public void setCodeReadyListener()
-        {
-            throw new NotImplementedException();
-        }
-
         //static const
         private const string KEYCODE = "KEYCODE_";
         public Character chracter;
@@ -62,18 +55,16 @@ namespace ClassLibrary1
         private string hintText;
         private int mInputType;
         private codeReadyListener listener;
-
-        protected CustomCodeInput(IntPtr javaReference, JniHandleOwnership transfer)
-            : base (javaReference, transfer)
-        {
-
-        }
         //Constructors
-        public CustomCodeInput(Context context) : base(context)
+        protected CustomCodeInput(IntPtr javaReference, JniHandleOwnership transfer)
+            : base(javaReference, transfer)
+        {
+        }
+       public CustomCodeInput(Context context) : base(context)
         {
             init(null);
             this.listener = null;
-        }
+        }   
         public CustomCodeInput(Context context, IAttributeSet attributeset) : base(context, attributeset)
         {
             init(attributeset);
@@ -86,7 +77,7 @@ namespace ClassLibrary1
         }
         //End of Constructors 
         public void setCodeReadyListener(codeReadyListener listener)
-        {
+        { 
             this.listener = listener;
         }
         private void init(IAttributeSet at)
@@ -112,21 +103,10 @@ namespace ClassLibrary1
             underlineReduction = Context.Resources.GetDimension(Resource.Dimension.section_reduction);
             textSize = Context.Resources.GetDimension(Resource.Dimension.text_size);
             textMarginBottom = Context.Resources.GetDimension(Resource.Dimension.text_margin_bottom);
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            underlineColor = Context.Resources.GetColor(Resource.Color.underline_default_color);
-#pragma warning restore CS0618 // Type or member is obsolete
-#pragma warning restore CS0618 // Type or member is obsolete
-#pragma warning disable CS0618 // Type or member is obsolete
-            underlineSelectedColor = Context.Resources.GetColor(Resource.Color.underline_selected_color);
-#pragma warning restore CS0618 // Type or member is obsolete
-#pragma warning disable CS0618 // Type or member is obsolete
-            hintColor = Context.Resources.GetColor(Resource.Color.hintColor);
-#pragma warning restore CS0618 // Type or member is obsolete
-#pragma warning disable CS0618 // Type or member is obsolete
-            textColor = Context.Resources.GetColor(Resource.Color.textColor);
-#pragma warning restore CS0618 // Type or member is obsolete
-#pragma warning restore CS0618 // Type or member is obsolete
+            underlineColor = (Resource.Color.underline_default_color);
+            underlineSelectedColor = (Resource.Color.underline_selected_color);
+            hintColor = (Resource.Color.hintColor);
+            textColor = (Resource.Color.textColor);
             hintMarginBottom = Context.Resources.GetDimension(Resource.Color.underline_default_color);
             hintNormalSize = Context.Resources.GetDimension(Resource.Dimension.hint_size);
             hintSmallSize = Context.Resources.GetDimension(Resource.Dimension.hint_small_size);
@@ -157,38 +137,30 @@ namespace ClassLibrary1
             underlines = new Underline[underlineAmount];
             characters = new FixedStack<Character>();
             characters.setMaxSize(underlineAmount);
-
         }
         public void initPaint()
         {
             underlinePaint = new Paint();
             // underlinePaint.C
-#pragma warning disable CS0618 // Type or member is obsolete
-            underlinePaint.Color=Resources.GetColor(underlineColor);
-#pragma warning restore CS0618 // Type or member is obsolete
+            underlinePaint.Set((Paint)Resource.Attribute.underline_color);
             underlinePaint.StrokeWidth= underlineStrokeWidth;
             underlinePaint.SetStyle(Paint.Style.Stroke);
             underlineSelectedPaint = new Paint();
-#pragma warning disable CS0618 // Type or member is obsolete
-            underlineSelectedPaint.Color = Resources.GetColor(underlineSelectedColor);
-#pragma warning restore CS0618 // Type or member is obsolete
+            // underlineSelectedPaint.Color = Resources.GetColor(underlineSelectedColor);
+            underlineSelectedPaint.Set((Paint)Resource.Color.underline_selected_color);
             underlineSelectedPaint.StrokeWidth=(underlineStrokeWidth);
             underlineSelectedPaint.SetStyle(Paint.Style.Stroke);
             textPaint = new Paint();
             textPaint.TextSize=textSize;
-#pragma warning disable CS0618 // Type or member is obsolete
-            textPaint.Color=Resources.GetColor(textColor);
-#pragma warning restore CS0618 // Type or member is obsolete
-#pragma warning restore CS0618 // Type or member is obsolete
+            // textPaint.Color=Resources.GetColor(Resource.Color.textColor);
+            textPaint.Set((Paint)Resource.Color.textColor);
             textPaint.AntiAlias=true;
             textPaint.TextAlign=Paint.Align.Center;
             hintPaint = new Paint();
             hintPaint.TextSize=hintNormalSize;
             hintPaint.AntiAlias=true;
-#pragma warning disable CS0618 // Type or member is obsolete
-            hintPaint.Color = Resources.GetColor(underlineColor);
-#pragma warning restore CS0618 // Type or member is obsolete
-
+            // hintPaint.Color = Resources.GetColor(underlineColor);
+            hintPaint.Set((Paint)Resource.Attribute.underline_color);
         }
         private void initAnimator()
         {
@@ -318,7 +290,7 @@ namespace ClassLibrary1
                     {
                         stringBuilder = new StringBuilder(KEYCODE);
                         stringBuilder.Append(c);
-                        //inputText(string.CompareOrdinal(stringBuilder));
+                        inputText(Java.Lang.String.ValueOf(stringBuilder));
                     }
                     if (characters.ToArray().Length==0)
                     {
@@ -357,9 +329,8 @@ namespace ClassLibrary1
                 {
                     startAnimation();
                 }
-
                 showKeyboard();
-            }
+                }
             return base.OnTouchEvent(motionevent);
         }
         protected override void OnDraw(Canvas canvas)
@@ -374,16 +345,13 @@ namespace ClassLibrary1
                 drawSection(i, fromX, fromY, toX, toY, canvas);
                 if (characters.ToArray().Length > i && characters.ToArray().Length != 0)
                 {
-
-                    drawCharacter(fromX, toX, characters.ElementAt(0), canvas);
+                drawCharacter(fromX, toX, characters.ElementAt(0), canvas);
                 }
             }
-
             if (hintText != null)
             {
                 drawHint(canvas);
             }
-
             Invalidate();
         }
         private void drawSection(int position, float fromX, float fromY, float toX, float toY, Canvas canvas)
@@ -411,29 +379,20 @@ namespace ClassLibrary1
             Character[] ar = new Character [100];
             ar = characters.ToArray();
             return ar ;
-
-
         }
         private class ReductionAnimatorListener : Java.Lang.Object, ValueAnimator.IAnimatorUpdateListener
            {
                private float reduction;
-
-            
-
             public void OnAnimationUpdate(ValueAnimator animation)
             {
                 //Take String Argument
                 float value = ((Float)animation.AnimatedValue).FloatValue();
                 reduction = value;
-            }
-
-          
+            }   
        }
         //End Of The First one 
         private class HintYAnimatorListener : Java.Lang.Object, ValueAnimator.IAnimatorUpdateListener
            {
-
-            
             public  void OnAnimationUpdate(ValueAnimator animation)
                {
                     hintActualMarginBottom = (float) animation.AnimatedValue;
@@ -449,6 +408,5 @@ namespace ClassLibrary1
             }
         }
         // override Animationupdae //End of the 3 one .
-
     }
     }
